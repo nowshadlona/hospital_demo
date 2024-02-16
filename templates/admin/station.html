@@ -336,25 +336,8 @@
 							<div class="card-header">
 								<h4 class="card-title">About</h4>
 							</div>
-										
+
 							<div class="card-body">
-								<form action="{% url 'upload_file' %}" method="POST" enctype="multipart/form-data">
-										{% csrf_token %}
-										<div class="form-group row">
-											<label class="col-form-label col-md-2">CSV Upload</label>
-											<div class="col-md-10">
-												<input type="file" name="file">
-												<div class="form-group row">
-													<div class="col-md-10">
-														<input type="submit" class="form-control"value ="Upload">
-													</div>
-												</div>
-											</div>
-											
-										</div>
-									</form> 			
-								
-							
 								<form action="{% url 'station_insert' %}" method="POST" enctype="multipart/form-data">
 									{% csrf_token %}
 									<div class="form-group row">
@@ -367,8 +350,8 @@
 												{% endfor %}
 											</select>
 										</div>
-									</div> 
-									<div class="form-group row"> 
+									</div>
+									<div class="form-group row">
 										<label class="col-form-label col-md-2">Select district</label>
 										<div class="col-md-10">
 											<select name="dis_id" class="form-control">
@@ -383,68 +366,93 @@
 									<div class="form-group row">
 										<label class="col-form-label  col-md-2">Station</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control"name ="name">
+											<input type="text" class="form-control" name="name">
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Hospital name</label>
 										<div class="col-md-10">
-											<input type="text"
-											class="form-control" name=" ">
-												
+											<input type="text" class="form-control" name=" ">
+
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Address</label>
 										<div class="col-md-10">
-											<input type="text"
-											class="form-control" name=" ">
-												
+											<input type="text" class="form-control" name=" ">
+
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Details</label>
 										<div class="col-md-10">
-											<input type="text"
-											class="form-control" name=" ">
-												
+											<input type="text" class="form-control" name=" ">
+
 										</div>
-									</div> 
+									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Contact</label>
 										<div class="col-md-10">
-											<input type="text"
-											class="form-control" name=" ">
-												
+											<input type="text" class="form-control" name=" ">
+
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Weblink</label>
 										<div class="col-md-10">
-											<input type="text"
-											class="form-control" name=" ">
-												
+											<input type="text" class="form-control" name=" ">
+
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-md-2">Image</label>
 										<div class="col-md-10">
-											<input type="file"
-											class="form-control" name="image">
-											
-												
+											<input type="file" class="form-control" name="image">
+
+
 										</div>
-									</div> 
+									</div>
 									<div class="form-group row">
 										<div class="col-md-10">
-											<input type="submit" class="form-control"value ="Upload">
+											<input type="submit" class="form-control" value="Upload">
 										</div>
-									</div>									 
-								
+									</div>
+
 								</form>
 							</div>
 						</div>
+						<!-- CSV Section -->
+						<div>
+							<h3>Or</h3>
+							<h4>Upload from CSV</h4>
+							<form action="{% url 'upload_csv' %}" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="form-group row">
+									<label class="col-form-label col-md-2">CSV Upload</label>
+									<div class="col-md-10">
+										<input type="file" name="csv_file">
+										<div class="form-group row">
+											<div class="col-md-10">
+												<input type="submit" class="form-control" value="Upload">
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</form>
+						</div>
+						<!-- CSV Section -->
+
+<!-- See Hospitals -->
+<div>
+	<a href="{% url 'hospitals' %}" target="_blank">See Hospitals</a>
+</div>
+<!-- See Hospitals -->
+
+
+
+						<!-- Table -->
 						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-header">
@@ -460,8 +468,6 @@
 													<th>District Name</th>
 													<th>Name</th>
 													<th>image</th>
-													
-																							
 												</tr>
 											</thead>
 											<tbody>
@@ -471,11 +477,10 @@
 													<td>{{k.div_id.divisionname}}</td>
 													<td>{{k.dis_id.Districtname}}</td>
 													<td>{{k.name}}</td>
-													
+													<td><img src="{{k.image.url}}" alt=""></td>
 												</tr>
 												{% endfor %}
 											</tbody>
-											
 										</table>
 									</div>
 								</div>

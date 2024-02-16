@@ -9,7 +9,10 @@ class Station(models.Model):
     name = models.CharField(max_length = 20)
     div_id = models.ForeignKey(Divisions,models.CASCADE)
     dis_id = models.ForeignKey(Districts,models.CASCADE)
-    image = models.ImageField(upload_to='images/') 
+    # image = models.ImageField(upload_to='images/') 
+
+
+  
 
 
 

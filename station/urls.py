@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path
 from . import views as v
-from .views import upload_file
+
 
 
 urlpatterns = [
@@ -26,7 +26,9 @@ urlpatterns = [
     # path("insert/", v.insert,name='division_insert'),
     # Example URL pattern
     path('station/insert', v.district_insert, name='station_insert'),
-    path('upload/', v.UploadFileForm, name='upload_file'),
+    # path('upload/', v.UploadFileForm, name='upload_file'),
+    path('upload_csv/', v.upload_csv, name='upload_csv'),
+    path('hospitals/', v.hospitals, name='hospitals'),
       
 
 ]

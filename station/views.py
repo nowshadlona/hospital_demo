@@ -2,38 +2,31 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from division.models import Divisions
 from district.models import Districts
-from django.shortcuts import get_object_or_404
-
-import pandas as pd
-# Create your views here.
-from django.db.models import Count
 from .models import Station
+import pandas as pd
+from django.core.exceptions import ValidationError
 
-from .forms import UploadFileForm
 
-def upload_file(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            file = request.FILES['file']
-            df = pd.read_csv(file)
-            for index, row in df.iterrows():
-                
-                station_instance = Station()
-                
-                div_id=row['division']
-                dis_id=row['district']
-                div_obj = Divisions.objects.get(id=div_id)
-                dis_obj = Districts.objects.get(id=dis_id)
-                station_instance.div_id = div_obj
-                station_instance.dis_id = dis_obj
-                station_instance.name = row['name']
-                
-                station_instance.save()
-            return redirect('station_index')  # Redirect to a success page after data insertion
-    else:
-        form = UploadFileForm()
-    return render(request, 'upload.html', {'Form': form})
+
+
+def upload_csv(request):
+    if request.method == 'POST' and request.FILES['csv_file']:
+        csv_file = request.FILES['csv_file']
+        if not csv_file.name.endswith('.csv'):
+            raise ValidationError('File is not a CSV')
+        df = pd.read_csv(csv_file)
+        for index, row in df.iterrows():
+            div_id = row['div_id']  # Assuming 'div_id' is a column in the CSV
+            dis_id = row['dis_id']  # Assuming 'dis_id' is a column in the CSV
+            name = row['name']  # Assuming 'name' is a column in the CSV
+            div = Divisions.objects.get(id=div_id)
+            dis = Districts.objects.get(id=dis_id)
+            Station.objects.create(name=name, div_id=div, dis_id=dis)
+        return HttpResponse("Data inserted Successfully.")
+    
+    return redirect('station_index')
+
+
 def search(request): 
    search_value = request.POST.get('search')
    search_result = Station.objects.filter(name__icontains=search_value)
@@ -71,7 +64,10 @@ def district_insert(request):
     st_obj.save()
 
     return redirect('station_index')
-from django.shortcuts import render
-# Create your views here.
+
+
+
+def hospitals(request):
+    return render(request, 'admin/search.html')
 
 
